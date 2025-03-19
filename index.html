@@ -7,6 +7,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
+       
+         <style>
         /* General Styles */
         body {
             font-family: 'Arial', sans-serif;
@@ -69,45 +71,54 @@
             transform: scale(0.95);
         }
     </style>
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Live Counter</h1>
-        <div id="counter">Loading...</div>
-        <button id="incrementBtn">Increase</button>
-    </div>
+    <h1>Live Counter</h1>
+    <div id="counter">Loading...</div>
+    <button id="incrementBtn">Increase</button>
 
     <script>
-        // ✅ Replace this with your actual Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+       // Import the functions you need from the SDKs you need
+
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBAp_0PiYlioKaUaxz2YWh1-NjrkbnHW28",
+  authDomain: "i-dare-you-25f82.firebaseapp.com",
+  databaseURL: "https://i-dare-you-25f82-default-rtdb.firebaseio.com",
+  projectId: "i-dare-you-25f82",
+  storageBucket: "i-dare-you-25f82.firebasestorage.app",
+  messagingSenderId: "373335436413",
+  appId: "1:373335436413:web:fc898e61ef388187c91514",
+  measurementId: "G-MCHPNDWVWW"
+};
+
+
 
         // ✅ Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const counterRef = db.ref("counter");
 
-        // ✅ Button Click Event
+        // ✅ Button click event
         document.getElementById("incrementBtn").addEventListener("click", () => {
             console.log("Button clicked!");
-            counterRef.transaction(count => (count || 0) + 1);
+            counterRef.transaction(count => {
+                console.log("Current count:", count);
+                return (count || 0) + 1;
+            });
         });
 
-        // ✅ Listen for updates in real-time
+        // ✅ Listen for updates
         counterRef.on("value", snapshot => {
             if (snapshot.exists()) {
                 document.getElementById("counter").innerText = snapshot.val();
                 console.log("Counter updated:", snapshot.val());
             } else {
-                document.getElementById("counter").innerText = "0";
+                document.getElementById("counter").innerText = 0;
                 console.log("Counter initialized to 0");
             }
         });
