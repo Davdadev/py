@@ -7,57 +7,107 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        #counter { font-size: 50px; margin: 20px; }
-        button { padding: 10px 20px; font-size: 20px; cursor: pointer; }
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Glassmorphism Card */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* Counter Display */
+        #counter {
+            font-size: 80px;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* Button Styling */
+        button {
+            background: #ff5757;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(255, 87, 87, 0.3);
+        }
+
+        button:hover {
+            background: #ff2e2e;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
 
-    <h1>Live Counter</h1>
-    <div id="counter">Loading...</div>
-    <button id="incrementBtn">Increase</button>
+    <div class="container">
+        <h1>Live Counter</h1>
+        <div id="counter">Loading...</div>
+        <button id="incrementBtn">Increase</button>
+    </div>
 
     <script>
-       // Import the functions you need from the SDKs you need
-
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBAp_0PiYlioKaUaxz2YWh1-NjrkbnHW28",
-  authDomain: "i-dare-you-25f82.firebaseapp.com",
-  databaseURL: "https://i-dare-you-25f82-default-rtdb.firebaseio.com",
-  projectId: "i-dare-you-25f82",
-  storageBucket: "i-dare-you-25f82.firebasestorage.app",
-  messagingSenderId: "373335436413",
-  appId: "1:373335436413:web:fc898e61ef388187c91514",
-  measurementId: "G-MCHPNDWVWW"
-};
-
-
+        // ✅ Replace this with your actual Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
         // ✅ Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const counterRef = db.ref("counter");
 
-        // ✅ Button click event
+        // ✅ Button Click Event
         document.getElementById("incrementBtn").addEventListener("click", () => {
             console.log("Button clicked!");
-            counterRef.transaction(count => {
-                console.log("Current count:", count);
-                return (count || 0) + 1;
-            });
+            counterRef.transaction(count => (count || 0) + 1);
         });
 
-        // ✅ Listen for updates
+        // ✅ Listen for updates in real-time
         counterRef.on("value", snapshot => {
             if (snapshot.exists()) {
                 document.getElementById("counter").innerText = snapshot.val();
                 console.log("Counter updated:", snapshot.val());
             } else {
-                document.getElementById("counter").innerText = 0;
+                document.getElementById("counter").innerText = "0";
                 console.log("Counter initialized to 0");
             }
         });
