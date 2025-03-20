@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div>
-    <title>click</title>
-    <div/>
+    <title>Click Counter</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
-       
     <style>
-        /* General Styles */
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
@@ -25,7 +21,6 @@
             margin: 0;
         }
 
-        /* Glassmorphism Card */
         .container {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
@@ -41,7 +36,6 @@
             margin-bottom: 10px;
         }
 
-        /* Counter Display */
         #counter {
             font-size: 80px;
             font-weight: bold;
@@ -49,7 +43,11 @@
             transition: 0.3s ease-in-out;
         }
 
-        /* Button Styling */
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+
         button {
             background: #ff5757;
             border: none;
@@ -72,56 +70,60 @@
         button:active {
             transform: scale(0.95);
         }
+
+        #decrementBtn {
+            background: #4CAF50;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        #decrementBtn:hover {
+            background: #45a049;
+        }
     </style>
-   
 </head>
 <body>
 
-    <h1>Goal Reach 1000000 Clicks</h1>
+    <h1>Goal: Reach 1,000,000 Clicks</h1>
     <div id="counter">Loading...</div>
-    <button id="incrementBtn">Increase</button>
+    <div class="buttons">
+        <button id="decrementBtn">Decrease</button>
+        <button id="incrementBtn">Increase</button>
+    </div>
 
     <script>
-       // Import the functions you need from the SDKs you need
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAp_0PiYlioKaUaxz2YWh1-NjrkbnHW28",
+            authDomain: "i-dare-you-25f82.firebaseapp.com",
+            databaseURL: "https://i-dare-you-25f82-default-rtdb.firebaseio.com",
+            projectId: "i-dare-you-25f82",
+            storageBucket: "i-dare-you-25f82.firebasestorage.app",
+            messagingSenderId: "373335436413",
+            appId: "1:373335436413:web:fc898e61ef388187c91514",
+            measurementId: "G-MCHPNDWVWW"
+        };
 
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBAp_0PiYlioKaUaxz2YWh1-NjrkbnHW28",
-  authDomain: "i-dare-you-25f82.firebaseapp.com",
-  databaseURL: "https://i-dare-you-25f82-default-rtdb.firebaseio.com",
-  projectId: "i-dare-you-25f82",
-  storageBucket: "i-dare-you-25f82.firebasestorage.app",
-  messagingSenderId: "373335436413",
-  appId: "1:373335436413:web:fc898e61ef388187c91514",
-  measurementId: "G-MCHPNDWVWW"
-};
-
-
-
-        // ✅ Initialize Firebase
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const counterRef = db.ref("counter");
 
-        // ✅ Button click event
+        // Increase Button
         document.getElementById("incrementBtn").addEventListener("click", () => {
-            console.log("Button clicked!");
-            counterRef.transaction(count => {
-                console.log("Current count:", count);
-                return (count || 0) + 1;
-            });
+            counterRef.transaction(count => (count || 0) + 1);
         });
 
-        // ✅ Listen for updates
+        // Decrease Button
+        document.getElementById("decrementBtn").addEventListener("click", () => {
+            counterRef.transaction(count => Math.max((count || 0) - 1, 0)); // Prevent negative numbers
+        });
+
+        // Listen for updates
         counterRef.on("value", snapshot => {
             if (snapshot.exists()) {
                 document.getElementById("counter").innerText = snapshot.val();
-                console.log("Counter updated:", snapshot.val());
             } else {
                 document.getElementById("counter").innerText = 0;
-                console.log("Counter initialized to 0");
             }
         });
 
@@ -129,4 +131,3 @@ const firebaseConfig = {
 
 </body>
 </html>
-        
