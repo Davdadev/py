@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Counter</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
-    <meta name="description" content="clicker">
-    <meta name="keywords" content="Game, clicker, live, multiplayer, button clicker, 1m clicks, fun games, free games, click the button">
+  <meta charset="UTF-8">
+  <meta name="description" content="clicker">
+  <meta name="keywords" content="Game, clicker, live, muiltiplayer, button clicker, 1m clicks, fun games, free games, click the button">
 
-    <!-- Load Firebase Scripts with Defer -->
-    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
-    <!-- Inline Critical CSS -->
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -27,6 +27,16 @@
             margin: 0;
         }
 
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            text-align: center;
+        }
+
         h1 {
             font-size: 28px;
             margin-bottom: 10px;
@@ -36,6 +46,7 @@
             font-size: 80px;
             font-weight: bold;
             margin: 20px 0;
+            transition: 0.3s ease-in-out;
         }
 
         .buttons {
@@ -44,6 +55,7 @@
         }
 
         button {
+            background: #12e655,
             border: none;
             padding: 15px 30px;
             font-size: 20px;
@@ -53,37 +65,27 @@
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             outline: none;
+            box-shadow: 0 4px 10px rgba(255, 87, 87, 0.3);
         }
 
-        /* Green Increase Button */
-        #incrementBtn {
-            background-color: #12e655;
-            box-shadow: 0 4px 10px rgba(18, 230, 85, 0.3);
-        }
-
-        #incrementBtn:hover {
-            background-color: #0fcf4d;
-            transform: scale(1.05);
-        }
-
-        /* Red Decrease Button */
-        #decrementBtn {
-            background-color: #f21d1d;
-            box-shadow: 0 4px 10px rgba(242, 29, 29, 0.3);
-        }
-
-        #decrementBtn:hover {
-            background-color: #d91515;
+        button:hover {
+            background: #12e655;
             transform: scale(1.05);
         }
 
         button:active {
             transform: scale(0.95);
         }
-    </style>
 
-    <!-- Load Non-Critical CSS Asynchronously -->
-    <link rel="stylesheet" href="styles.css" media="print" onload="this.onload=null;this.media='all';">
+        #decrementBtn {
+            background: #f21d1d;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        #decrementBtn:hover {
+            background: #f21d1d;
+        }
+    </style>
 </head>
 <body>
 
@@ -94,7 +96,6 @@
         <button id="incrementBtn">Increase</button>
     </div>
 
-    <!-- Move JavaScript to the End of Body -->
     <script>
         // Firebase Configuration
         const firebaseConfig = {
